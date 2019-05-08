@@ -1,0 +1,5 @@
+name: Depot
+version: 1.0.0
+api: 3.8.2
+main: atom\depot\Main
+author: iAtomPlaza
