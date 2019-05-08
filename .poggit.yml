@@ -4,4 +4,7 @@ branches:
 projects:
   Depot:
     path: ""
+    libs:
+      - src: Atomization/gui
+      version: ^1.0.0
 ...
