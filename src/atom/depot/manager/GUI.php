@@ -85,6 +85,7 @@ class GUI {
             if (self::$identifier[$i][2] == $data) {
                 $price = self::$identifier[$i][1];
                 $id = explode(":", self::$identifier[$i][0]);
+                $name = self::$identifier[$i][2];
                 $transaction = new CustomGui();
                 $transaction->setTitle("Buy/Sell: ".self::$identifier[$i][2]);
                 $transaction->addLabel(TextFormat::YELLOW."Current server coins: $".Store::getMoney($player));
@@ -92,15 +93,20 @@ class GUI {
                 $transaction->addLabel(TextFormat::RED."Sell for: $".(25/100)*$price);
                 $transaction->addToggle("Buy/Sell");
                 $transaction->addSlider("Amount", 1, 64);
-                $transaction->setAction(function (Player $player, $data) use ($price, $id) {
+                $transaction->setAction(function (Player $player, $data) use ($price, $id, $name) {
                     if (!$data[3]){
                         if (isset($id[1])){
                             $item = ItemFactory::get($id[0], $id[1], $data[4]);
+                            $item->setCustomName($name);
                         } else {
                             $item = ItemFactory::get($id[0], 0, $data[4]);
+                            $item->setCustomName($name);
                         }
                         $bulk_price = $price * $data[4];
                         Store::buy($player, $item, $bulk_price);
+//                        for ($i = 0; $i < $data[4]; $i++) {
+//                            Store::buy($player, $item, $price);
+//                        }
                     } else {
                         if (isset($id[1])) {
                             $item = ItemFactory::get($id[0], $id[1], $data[4]);
