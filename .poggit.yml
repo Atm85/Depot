@@ -5,6 +5,6 @@ projects:
   Depot:
     path: ""
     libs:
-      - src: "gui.phar"
+      - src: "Atomization/GUI/gui"
         version: "^1.0.1"
 ...
