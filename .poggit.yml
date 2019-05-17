@@ -5,6 +5,5 @@ projects:
   Depot:
     path: ""
     libs:
-      - src: Atomization/gui
-        version: ^1.0.1
+      - src: https://github.com/Atomization/gui/releases/download/1.0.1/gui.phar
 ...
