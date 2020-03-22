@@ -35,7 +35,8 @@ class Store {
     public static function addMoney(Player $player, int $amount) {
         $api = Main::getInstance()->getServer()->getPluginManager()->getPlugin("EconomyAPI");
         $newAmount = self::getMoney($player) + $amount;
-        $api->setMoney($player, $newAmount);
+        $api->setMoney($player, $newAmount, true);
+        $api->saveAll();
     }
 
     public static function removeMoney(Player $player, int $amount) {
@@ -44,7 +45,8 @@ class Store {
             return;
         } else {
             $newAmount = self::getMoney($player) - $amount;
-            $api->setMoney($player, $newAmount);
+            $api->setMoney($player, $newAmount, true);
+            $api->saveAll();
         }
     }
 
