@@ -105,8 +105,7 @@ class Main extends PluginBase {
         ]);
         $this->store->save();
 
-        $this->getServer()->getPluginManager()->registerEvents(new JoinEvent($this), $this);
-        $this->getServer()->getPluginManager()->registerEvents(new ToggleSneakEvent($this), $this);
+        //$this->getServer()->getPluginManager()->registerEvents(new ToggleSneakEvent($this), $this);
 
         GUI::register("shop-gui");
     }
