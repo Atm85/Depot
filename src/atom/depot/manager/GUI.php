@@ -27,6 +27,12 @@ class GUI {
     /** array */
     private static $identifier = [];
 
+    public static function clearData(): void{
+        self::$category = [];
+        self::$product = [];
+        self::$identifier = [];
+    }
+
     /**
      * @param string $name
      */
@@ -104,9 +110,9 @@ class GUI {
                         }
                         $bulk_price = $price * $data[4];
                         Store::buy($player, $item, $bulk_price);
-//                        for ($i = 0; $i < $data[4]; $i++) {
-//                            Store::buy($player, $item, $price);
-//                        }
+                    //    for ($i = 0; $i < $data[4]; $i++) {
+                    //       Store::buy($player, $item, $price);
+                    //    }
                     } else {
                         if (isset($id[1])) {
                             $item = ItemFactory::get($id[0], $id[1], $data[4]);
