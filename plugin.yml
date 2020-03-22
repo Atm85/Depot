@@ -3,3 +3,4 @@ version: 1.0.1
 api: 3.8.2
 main: atom\depot\Main
 author: iAtomPlaza
+depend: EconomyAPI
