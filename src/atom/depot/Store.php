@@ -1,8 +1,6 @@
 <?php
 
-
 namespace atom\depot;
-
 
 use pocketmine\item\Item;
 use pocketmine\Player;
@@ -27,7 +25,7 @@ class Store {
             $player->sendMessage(TextFormat::RED."You sold " . $item->getName() . " for $" . $price);
             self::addMoney($player, $price);
         } else {
-            $player->sendMessage(TextFormat::AQUA . "You do not have enough " . $item->getName() . " to sell!");
+            $player->sendMessage(TextFormat::AQUA . "You do not have enough " . $item->getName() . "'s to sell!");
         }
     }
 
@@ -35,33 +33,23 @@ class Store {
     }
 
     public static function addMoney(Player $player, int $amount) {
-        $data = yaml_parse_file(self::getDataFile($player));
-        $data['money'] += $amount;
-        yaml_emit_file(self::getDataFile($player), [
-            "name" => strtolower($player->getName()),
-            "money" => $data['money']
-        ]);
+        $api = Main::getInstance()->getServer()->getPluginManager()->getPlugin("EconomyAPI");
+        $newAmount = self::getMoney($player) + $amount;
+        $api->setMoney($player, $newAmount);
     }
 
     public static function removeMoney(Player $player, int $amount) {
+        $api = Main::getInstance()->getServer()->getPluginManager()->getPlugin("EconomyAPI");
         if (self::getMoney($player) <= 0) {
             return;
         } else {
-            $data = yaml_parse_file(self::getDataFile($player));
-            $data['money'] -= $amount;
-            yaml_emit_file(self::getDataFile($player), [
-                "name" => strtolower($player->getName()),
-                "money" => $data['money']
-            ]);
+            $newAmount = self::getMoney($player) - $amount;
+            $api->setMoney($player, $newAmount);
         }
     }
 
     public static function getMoney(Player $player){
-        $data = yaml_parse_file(self::getDataFile($player));
-        return $data['money'];
-    }
-
-    private static function getDataFile(Player $player) {
-        return Main::getInstance()->getDataFolder()."data/".strtolower($player->getName()).".yml";
+        $api = Main::getInstance()->getServer()->getPluginManager()->getPlugin("EconomyAPI");
+        return $api->myMoney($player);
     }
 }
