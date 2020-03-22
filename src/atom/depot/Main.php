@@ -22,7 +22,6 @@ class Main extends PluginBase {
     public function onEnable(): void{
         self::$instance = $this;
         @mkdir($this->getDataFolder());
-        @mkdir($this->getDataFolder()."data/");
         $this->store = new Config($this->getDataFolder()."store.yml");
         $this->store = new Config($this->getDataFolder()."store.yml", Config::YAML, [
             "Blocks" => [
