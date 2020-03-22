@@ -103,11 +103,16 @@ class Main extends PluginBase {
                 "414-250-Rabbit's Foot"
             ]
         ]);
+
         $this->store->save();
 
-        //$this->getServer()->getPluginManager()->registerEvents(new ToggleSneakEvent($this), $this);
+        // $this->getServer()->getPluginManager()->registerEvents(new ToggleSneakEvent($this), $this);
 
         GUI::register("shop-gui");
+    }
+
+    public function onDisable(): void{
+        GUI::clearData();
     }
 
     public static function getInstance(): Main{
