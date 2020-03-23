@@ -112,7 +112,7 @@ class Main extends PluginBase {
     }
 
     public function onDisable(): void{
-        GUI::clearData();
+        // GUI::clearData();
     }
 
     public static function getInstance(): Main{
