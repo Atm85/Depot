@@ -3,7 +3,6 @@
 namespace atom\depot;
 
 use atom\depot\commands\DepotCommand;
-use atom\depot\events\JoinEvent;
 use atom\depot\events\ToggleSneakEvent;
 use atom\depot\manager\GUI;
 use pocketmine\plugin\PluginBase;
@@ -14,15 +13,14 @@ class Main extends PluginBase {
     public $store;
     public static $instance;
 
-    public function onLoad(): void{
+    public function onLoad() : void {
         $map = $this->getServer()->getCommandMap();
         $map->register("depot", new DepotCommand($this));
     }
 
-    public function onEnable(): void{
+    public function onEnable() : void {
         self::$instance = $this;
         @mkdir($this->getDataFolder());
-        $this->store = new Config($this->getDataFolder()."store.yml");
         $this->store = new Config($this->getDataFolder()."store.yml", Config::YAML, [
             "Blocks" => [
                 "2-250-grass",
@@ -109,10 +107,6 @@ class Main extends PluginBase {
         // $this->getServer()->getPluginManager()->registerEvents(new ToggleSneakEvent($this), $this);
 
         GUI::register("shop-gui");
-    }
-
-    public function onDisable(): void{
-        // GUI::clearData();
     }
 
     public static function getInstance(): Main{
