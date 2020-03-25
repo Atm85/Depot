@@ -27,12 +27,6 @@ class GUI {
     /** array */
     private static $identifier = [];
 
-    // public static function clearData(): void {
-    //     self::$categories = [];
-    //     self::$products = [];
-    //     self::$identifier = [];
-    // }
-
     /**
      * @param string $name
      */
