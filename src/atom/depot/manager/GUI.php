@@ -18,12 +18,6 @@ class GUI {
     /** @var Config */
     private static $store;
 
-    /** array [] */
-    private static $categories = [];
-
-    /** array [] */
-    private static $products = [];
-
     /** array */
     private static $identifier = [];
 
@@ -38,8 +32,6 @@ class GUI {
 
         foreach (self::$store->getAll() as $category => $item){
             $gui->addButton($category);
-            // array_push(self::$categories, $category);
-            // array_push(self::$products, $item);
         }
 
         /** $data = category button text */
@@ -74,7 +66,16 @@ class GUI {
             $productUi->setTitle($category);
             foreach($productMeta as $product) {
                 /** 2: index of item name to set as button. */
-                $productUi->addButton($product[2]);
+                $itemId = explode(":", $product[0]);
+                $id = $itemId[0];
+                $meta = 0;
+                if (isset($itemId[1])) {
+                    $meta = $itemId[1];
+                } else {
+                    $meta = 0;
+                }
+                $icon = "http://shop-icons.herokuapp.com/depot/icons/$id-$meta.png";
+                $productUi->addButton($product[2], $icon);
             }
             $productUi->addButton(TextFormat::DARK_RED.TextFormat::BOLD."✕ 'RETURN'");
             $productUi->setAction(function (Player $player, $data){
@@ -133,49 +134,6 @@ class GUI {
                     }
                 });
                 Form::register($name, $transactionUI);
-            }
-        }
-    }
-
-    private static function transaction(Player $player, $data){
-        for ($i = 0; $i < count(self::$identifier); $i++) {
-            if (self::$identifier[$i][2] == $data) {
-                $price = self::$identifier[$i][1];
-                $itemId = explode(":", self::$identifier[$i][0]);
-                $name = self::$identifier[$i][2];
-                $transaction = new CustomGui();
-                $transaction->setTitle("Buy/Sell: ".self::$identifier[$i][2]);
-                $transaction->addLabel(TextFormat::YELLOW."Current server coins: $".Store::getMoney($player));
-                $transaction->addLabel(TextFormat::GREEN."Buy for: $".$price);
-                $transaction->addLabel(TextFormat::RED."Sell for: $".(25/100)*$price);
-                $transaction->addToggle("Buy/Sell");
-                $transaction->addSlider("Amount", 1, 64);
-                $transaction->setAction(function (Player $player, $data) use ($price, $itemId, $name) {
-                    if (!$data[3]){
-                        if (isset($itemId[1])){
-                            $item = ItemFactory::get($itemId[0], $itemId[1], $data[4]);
-                            $item->setCustomName($name);
-                        } else {
-                            $item = ItemFactory::get($itemId[0], 0, $data[4]);
-                            $item->setCustomName($name);
-                        }
-                        $bulk_price = $price * $data[4];
-                        Store::buy($player, $item, $bulk_price);
-                    //    for ($i = 0; $i < $data[4]; $i++) {
-                    //       Store::buy($player, $item, $price);
-                    //    }
-                    } else {
-                        if (isset($itemId[1])) {
-                            $item = ItemFactory::get($itemId[0], $itemId[1], $data[4]);
-                        } else {
-                            $item = ItemFactory::get($itemId[0], 0, $data[4]);
-                        }
-                        $bulk_price = $price * $data[4];
-                        Store::sell($player, $item, (25/100)*$bulk_price);
-                    }
-                });
-                Form::register("transaction", $transaction);
-                self::send($player, "transaction");
             }
         }
     }
