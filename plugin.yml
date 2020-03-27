@@ -1,6 +1,10 @@
 name: Depot
-version: 1.0.1
+version: 2.0.1
 api: 3.8.2
 main: atom\depot\Main
 author: iAtomPlaza
-depend: EconomyAPI
+depend: [EconomyAPI]
+permissions:
+  shop.open:
+    default: op
+    description: allows users to open shop
